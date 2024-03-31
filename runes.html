@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leitura de Runas</title>
+    <style>
+        /* Seus estilos pré-definidos permanecem iguais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            padding: 20px;
+            overflow-x: hidden;
+            font-size: 110%;
+        }
+        .cards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            width: 460px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: justify;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        img {
+            max-width: 33%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .card-description {
+            line-height: 1.5;
+            font-size: 1.1em;
+        }
+        @media (max-width: 768px) {
+            .card {
+                width: 96%;
+                margin: 6px auto;
+            }
+        }
+        .email {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.8em;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Leitura de Runas</h1>
+<hr>
+<div class="email">ytsejam_maxpower@yahoo.com.br</div>
+
+<div class="cards" id="cards-container"></div>
+
+<script>
+    const runeDescriptions = {
+        
+        
+  "Fehu": {
+    "imageSrc": "runes/fehu.png",
+    "keywords": {
+      "normal": "Riqueza, Prosperidade, Abundância",
+      "inverted": "Perda, Escassez, Estagnação"
+    },
+    "generalMeaning": {
+      "normal": "Fehu é a runa da prosperidade, marcando o início de ciclos de sucesso e a manifestação de objetivos materiais. Representa a acumulação de recursos, riquezas que devem ser circuladas para manter a prosperidade. A presença de Fehu em uma leitura sugere um tempo de fortalecimento financeiro e de recompensas por esforços passados.",
+      "inverted": "Quando Fehu aparece invertida, indica um aviso contra a avareza, a dependência excessiva de bens materiais, ou a perda de propriedade. Simboliza estagnação, aconselhando o indivíduo a reavaliar suas atitudes em relação à riqueza e ao materialismo."
+    },
+    "symbols": "O gado, representado por Fehu, era uma forma antiga de riqueza e valor, tanto econômico quanto espiritual. Esses animais não apenas representavam riqueza material através de sua carne, leite e peles, mas também simbolizavam a fertilidade e o sustento. O simbolismo de Fehu encoraja a circulação de riquezas para promover a continuidade da abundância.",
+    "positiveAspects": "Fehu traz consigo a promessa de prosperidade, sucesso e satisfação material. Encoraja a partilha de sua fortuna e a reinvestir suas riquezas para o crescimento futuro. A gratidão e o reconhecimento das bênçãos atuais são fundamentais para manter a energia positiva que Fehu representa.",
+    "challenges": "Os desafios apresentados por Fehu incluem a superação do medo da escassez e a tendência à ganância. A runa adverte contra o acúmulo de riquezas à custa do bem-estar espiritual ou do descuido dos laços comunitários e familiares.",
+    "career": {
+      "normal": "No contexto profissional, Fehu é um sinal auspicioso para novos empreendimentos, promoções e ganhos financeiros. Encoraja a busca por oportunidades e a valorização do trabalho árduo e da perseverança.",
+      "inverted": "Invertida, Fehu pode indicar um período de incerteza financeira, perdas ou falhas em negócios. Sugere a necessidade de cautela com investimentos e a importância de não se sobrecarregar com expectativas irrealistas."
+    },
+    "love": {
+      "normal": "Em questões de amor, Fehu fala de relacionamentos que trazem crescimento mútuo e compartilhamento de sucessos. A prosperidade pode vir na forma de enriquecimento emocional e fortalecimento dos laços afetivos.",
+      "inverted": "Quando invertida, pode indicar problemas no paraíso, talvez relacionados a desequilíbrios na partilha de recursos ou a uma ênfase excessiva em valores materiais sobre a conexão emocional."
+    },
+    "advice": "Use os recursos disponíveis de maneira sábia, compartilhando sua abundância e garantindo o fluxo contínuo de energia positiva. A verdadeira prosperidade vem não apenas da riqueza material, mas do bem-estar e da felicidade compartilhados.",
+    "positionInverted": true
+},
+
+  "Uruz": {
+    "imageSrc": "runes/uruz.png",
+    "keywords": {
+      "normal": "Força, Saúde, Vitalidade",
+      "inverted": "Fraqueza, Doença, Falta de foco"
+    },
+    "generalMeaning": {
+      "normal": "Uruz simboliza a força bruta, a energia vital e a saúde robusta. Esta runa representa o poder de superação, a capacidade de enfrentar e transcender os desafios pela própria força de vontade e resistência física. Ela sugere um momento de grande energia e potencial para o crescimento pessoal, indicando que você tem a força necessária para enfrentar os obstáculos que estão por vir.",
+      "inverted": "Quando Uruz aparece invertida, alerta para a possibilidade de saúde debilitada, falta de energia ou direção. Indica um momento de reavaliação das suas forças, sugerindo a necessidade de cuidar da sua saúde física e mental, e a reconsiderar as ações que podem estar drenando sua energia."
+    },
+    "symbols": "Uruz é tradicionalmente associada ao urso ou ao auroque, um tipo de boi selvagem que era conhecido por sua força e estatura. Esses animais simbolizam a força indomável e a capacidade de sobrevivência, encorajando a coragem e a determinação frente aos desafios.",
+    "positiveAspects": "Esta runa encoraja a manifestação da força interior, o desenvolvimento da resiliência e a afirmação da independência. Uruz promove a cura, o vigor e a energia necessária para o progresso pessoal.",
+    "challenges": "Os desafios de Uruz incluem a superação da impulsividade, do orgulho excessivo ou do risco de usar a força de maneira destrutiva. A runa adverte sobre o potencial para a autodestruição se essa energia não for canalizada de forma positiva.",
+    "career": {
+      "normal": "No âmbito profissional, Uruz indica uma fase de conquista por meio da persistência e do esforço árduo. Pode sugerir a superação de obstáculos profissionais através da pura determinação e do trabalho duro.",
+      "inverted": "Invertida, a runa sugere a necessidade de pausar e reavaliar estratégias de carreira. Alerta para a possibilidade de esgotamento ou desafios que podem estar impedindo o progresso."
+    },
+    "love": {
+      "normal": "Em relacionamentos, Uruz fala de uma conexão forte e saudável, onde ambos os parceiros se apoiam mutuamente em crescimento. Indica vitalidade e paixão dentro da relação.",
+      "inverted": "Quando invertida, pode apontar para relacionamentos que drenam sua energia, ou onde a falta de comunicação leva a desentendimentos e fraquezas emocionais."
+    },
+    "advice": "Empregue sua força e energia de forma sábia e construtiva. Aproveite este momento para fortalecer seu corpo e espírito, e não tenha medo de enfrentar os desafios com coragem e determinação.",
+    "positionInverted": true
+  },
+
+  "Thurisaz": {
+    "imageSrc": "runes/thurisaz.png",
+    "keywords": {
+      "normal": "Desafio, Proteção, Reflexão forçada",
+      "inverted": "Conflito interno, Destruição, Obstáculos"
+    },
+    "generalMeaning": {
+      "normal": "Thurisaz representa o espinho, uma arma de defesa e um lembrete de que devemos enfrentar e superar os desafios para crescer. Esta runa simboliza a proteção, a necessidade de defesa, e a oportunidade para reflexão profunda diante dos obstáculos. Encoraja o indivíduo a enfrentar suas adversidades com força e coragem, usando-os como meios para evolução pessoal.",
+      "inverted": "Quando invertida, Thurisaz sugere que os desafios podem estar originando-se de conflitos internos, levando à autodestruição se não forem abordados conscientemente. Adverte sobre a tendência a agir impulsivamente, o que pode causar mais danos do que soluções."
+    },
+    "symbols": "A associação de Thurisaz com o espinho lembra-nos da dupla natureza da proteção e do perigo. Espinhos protegem, mas também podem ferir se manuseados sem cuidado. A runa também está ligada ao deus Thor e seu martelo, simbolizando força e proteção contra o mal.",
+    "positiveAspects": "Thurisaz encoraja a assertividade e a coragem para enfrentar as dificuldades. Indica que a proteção está disponível se buscarmos conscientemente e que a reflexão antes da ação pode levar a soluções inovadoras.",
+    "challenges": "Esta runa adverte contra a agressão desmedida e a precipitação. Os desafios incluem a superação da tendência a reagir sem pensar e a aprender a distinguir entre o que necessita de confronto e o que demanda paciência.",
+    "career": {
+      "normal": "No contexto profissional, Thurisaz sugere que obstáculos podem ser superados com determinação e estratégia. Pode indicar um momento de luta que, se enfrentado com sabedoria, trará crescimento e fortalecimento.",
+      "inverted": "Invertida, aponta para conflitos no ambiente de trabalho que podem estar afetando seu progresso. Aconselha a buscar clareza e evitar ações impulsivas que possam causar rupturas."
+    },
+    "love": {
+      "normal": "Em relacionamentos, sugere que desafios devem ser enfrentados juntos, fortalecendo o vínculo. A proteção mútua e o apoio são fundamentais para superar tempos difíceis.",
+      "inverted": "Indica a presença de tensões e conflitos que precisam ser abordados para evitar danos maiores. A comunicação aberta e sincera é essencial para resolver desentendimentos."
+    },
+    "advice": "Use este momento para fortalecer suas defesas internas e externas. Reflita profundamente antes de agir e lembre-se de que a paciência e a estratégia são tão importantes quanto a força e a coragem. Evite conflitos desnecessários e busque crescimento através dos desafios.",
+    "positionInverted": true
+  },
+
+  "Ansuz": {
+    "imageSrc": "runes/ansuz.png",
+    "keywords": {
+      "normal": "Comunicação, Sabedoria, Revelação",
+      "inverted": "Má comunicação, Engano, Confusão"
+    },
+    "generalMeaning": {
+      "normal": "Ansuz é a runa da comunicação, simbolizando a recepção de mensagens, conhecimento e conselhos, geralmente de uma fonte divina ou espiritual. Representa a sabedoria e o poder das palavras, incentivando a busca por orientação e a expressão clara de ideias. Esta runa sugere que é um momento para escutar atentamente e aprender com o que está sendo comunicado a você.",
+      "inverted": "Quando Ansuz aparece invertida, indica que pode haver falhas na comunicação, mal-entendidos ou que a verdade está sendo mal representada. Alerta para o risco de ser enganado ou de interpretar mal as intenções dos outros. Aconselha a buscar clareza e verificação antes de agir baseado em informações recebidas."
+    },
+    "symbols": "Associada a Odin, o deus nórdico da sabedoria, guerra e poesia, Ansuz carrega a energia da eloquência e da liderança. Este vínculo sugere que a sabedoria e a orientação podem vir de fontes inesperadas e que a verdade e o conhecimento são dons preciosos.",
+    "positiveAspects": "A presença de Ansuz em uma leitura enfatiza a importância da aprendizagem e do crescimento através da comunicação. Encoraja o compartilhamento de conhecimento, o diálogo aberto e a importância de ouvir tanto quanto falar. Promove a clareza de expressão e o pensamento crítico.",
+    "challenges": "Os desafios de Ansuz giram em torno de superar obstáculos à compreensão clara e ao diálogo eficaz. Inclui o perigo de ser mal interpretado ou de permitir que mal-entendidos corroam a confiança e as relações.",
+    "career": {
+      "normal": "No trabalho, Ansuz sugere que a comunicação aberta e a troca de ideias levarão a oportunidades e sucesso. Pode indicar a chegada de conselhos valiosos ou de informações que impulsionarão sua carreira.",
+      "inverted": "Adverte sobre a possibilidade de mal-entendidos no ambiente de trabalho ou de receber conselhos pouco confiáveis. Incentiva a verificação de fatos e a comunicação clara para evitar conflitos."
+    },
+    "love": {
+      "normal": "Em relacionamentos, esta runa enfatiza a importância da comunicação honesta e da expressão de sentimentos e pensamentos. Anuncia um período de crescimento mútuo e compreensão profunda.",
+      "inverted": "Pode sinalizar problemas de comunicação com um parceiro, onde não se está ouvindo ou expressando efetivamente. Recomenda-se buscar formas de melhorar a comunicação e entender as perspectivas do outro."
+    },
+    "advice": "Valorize a importância da palavra falada e escrita. Mantenha-se aberto a aprender e compartilhar sabedoria. Use a comunicação não apenas para expressar, mas também para conectar, curar e revelar verdades mais profundas. Esteja consciente da veracidade e clareza das informações que você recebe e transmite.",
+    "positionInverted": true
+  },
+
+
+  
+  "Raidho": {
+    "imageSrc": "runes/raidho.png",
+    "keywords": {
+      "normal": "Viagem, Movimento, Evolução",
+      "inverted": "Estagnação, Rotina exaustiva, Desvio de curso"
+    },
+    "generalMeaning": {
+      "normal": "Raidho simboliza a jornada da vida, o movimento físico e espiritual, e a necessidade de alinhar-se com o ritmo natural do universo. Esta runa encoraja a progressão e a adaptação às mudanças, destacando a importância de estar em movimento e a busca por equilíbrio e direção. Raidho sugere que uma viagem ou mudança pode ser necessária para o seu crescimento pessoal ou espiritual, seja ela interna ou externa.",
+      "inverted": "Quando aparece invertida, Raidho pode indicar uma sensação de estar preso em uma rotina exaustiva ou em um caminho que não leva ao crescimento desejado. Alerta para a necessidade de reavaliar sua direção, sugerindo que talvez seja hora de fazer ajustes no seu trajeto ou na maneira como você está abordando seus objetivos."
+    },
+    "symbols": "Raidho é frequentemente associada ao carro, um meio de transporte que simboliza progresso, movimento e a capacidade de navegar pelo mundo. Este simbolismo reforça a ideia de jornada, tanto externa quanto interna, e a importância de guiar essa jornada com intenção e sabedoria.",
+    "positiveAspects": "Esta runa fala de viagens enriquecedoras, crescimento pessoal através de experiências e a habilidade de manter-se adaptável e flexível diante das mudanças. Incentiva a seguir em frente com propósito e a entender que cada passo da jornada é um aprendizado.",
+    "challenges": "Os desafios incluem superar a resistência à mudança, a tendência a ficar preso em comportamentos ou pensamentos desatualizados e a dificuldade em encontrar a direção certa. Raidho convoca a refletir sobre sua direção e abrir-se para novas possibilidades.",
+    "career": {
+      "normal": "No âmbito profissional, indica um momento propício para buscar novas oportunidades, talvez até mudanças de emprego ou viagens relacionadas ao trabalho. Sugere movimento na carreira, que deve ser guiado por um planejamento cuidadoso e intenção clara.",
+      "inverted": "Pode apontar para frustrações no trabalho, seja por monotonia ou por sentir que sua carreira não está progredindo como esperado. Encoraja a reavaliar seus objetivos profissionais e considerar mudanças que possam realinhar sua carreira com suas verdadeiras ambições."
+    },
+    "love": {
+      "normal": "Em relacionamentos, simboliza uma viagem compartilhada, com cada pessoa contribuindo para o crescimento mútuo e apoiando um ao outro nas mudanças da vida. Pode indicar uma fase de aprendizado conjunto ou uma viagem física que fortalecerá o vínculo.",
+      "inverted": "Alerta para a estagnação no relacionamento ou para o fato de que o caminho atual pode não estar mais servindo ao desenvolvimento conjunto. Sugere a importância de dialogar sobre novas direções e experiências que podem revitalizar a relação.",
+    },
+      "advice": "Esteja aberto às mudanças e ao fluxo natural da vida. Lembre-se de que a jornada é tão importante quanto o destino e que cada passo, seja em direção ao conhecido ou desconhecido, oferece uma oportunidade para crescimento e aprendizado. Avalie seu caminho regularmente para garantir que ele esteja alinhado com seus verdadeiros desejos e necessidades.",
+    "positionInverted": true
+  },
+
+  
+  "Kaunan": {
+    "imageSrc": "runes/kaunan.png",
+    "keywords": {
+      "normal": "Transformação, Iluminação, Conhecimento",
+      "inverted": "Obscuridade, Confusão, Perda de direção"
+    },
+    "generalMeaning": {
+      "normal": "Kaunan, frequentemente associada à tocha ou fogo, simboliza iluminação, inspiração e o despertar de novas ideias ou paixões. Esta runa fala da luz que afasta as trevas, representando a busca e a obtenção de conhecimento, bem como a transformação pessoal que acompanha o processo de aprendizado. É um sinal de esperança, indicando que a claridade está a caminho e que agora é um momento de grande potencial para crescimento intelectual e espiritual.",
+      "inverted": "Quando Kaunan aparece invertida, indica que você pode estar enfrentando um período de confusão ou de falta de clareza. Pode sugerir que uma visão ou entendimento está sendo bloqueado, levando a sentimentos de incerteza e à necessidade de reavaliação. Aconselha a procurar orientação externa ou a se interiorizar para encontrar as respostas de que precisa."
+    },
+    "symbols": "O fogo, como símbolo central de Kaunan, é um lembrete do poder da transformação. Ele pode consumir, mas também pode purificar e renovar, oferecendo luz e calor. Este simbolismo enfatiza a importância do equilíbrio entre destruição e renovação no ciclo da vida e no processo de crescimento.",
+    "positiveAspects": "Kaunan encoraja a expressão criativa, a paixão pelo aprendizado e o otimismo diante da descoberta. Promove a iluminação espiritual e a capacidade de ver além das aparências, encontrando significado profundo nas experiências vividas.",
+    "challenges": "Os desafios incluem lidar com a frustração que surge da obscuridade ou da falta de progresso. Kaunan invertida adverte contra o risco de se perder no caminho ou de se deixar levar por ilusões.",
+    "career": {
+      "normal": "No contexto profissional, Kaunan indica um período de inovação e de novas ideias. Pode sugerir que é hora de iniciar projetos criativos ou de buscar soluções inovadoras para problemas antigos.",
+      "inverted": "Sinaliza a necessidade de cautela com decisões mal informadas ou com a tendência a agir impulsivamente. Recomenda-se buscar clareza antes de avançar com novos projetos ou mudanças de carreira."
+    },
+    "love": {
+      "normal": "Em relacionamentos, simboliza a renovação da paixão e a descoberta de novas profundidades no amor. Encoraja a comunicação aberta e a expressão sincera dos sentimentos.",
+      "inverted": "Pode indicar um período de mal-entendidos ou de falta de comunicação com o parceiro. Aconselha a reacender a chama da compreensão e a buscar um terreno comum para superar desafios.",
+    },
+    "advice": "Permita que a luz de Kaunan ilumine seu caminho, trazendo clareza e inspiração. Esteja aberto às transformações e ao novo conhecimento, mas lembre-se de manter o equilíbrio e a prudência em sua busca. Use a criatividade como uma ferramenta para navegar pelos desafios e para descobrir as verdades ocultas.",
+    "positionInverted": true
+  },
+
+
+  
+  "Gebo": {
+    "imageSrc": "runes/gebo.png",
+    "keywords": {
+      "normal": "Doação, Equilíbrio, Generosidade"
+    },
+    "generalMeaning": {
+      "normal": "Gebo simboliza a importância do equilíbrio nas relações interpessoais, destacando a generosidade, a reciprocidade e a importância das trocas justas. Representa a dádiva, tanto no sentido material quanto espiritual, indicando que o ato de dar, sem esperar algo em retorno, é uma fonte poderosa de alegria e satisfação. A presença desta runa em uma leitura sugere que você pode estar recebendo um presente ou que é o momento de ser generoso com alguém."
+    },
+    "symbols": "Gebo é representada por um X, simbolizando a intersecção e a união de caminhos, a parceria e o equilíbrio. Este símbolo encoraja a igualdade nas trocas e lembra que os melhores relacionamentos são aqueles baseados no respeito mútuo e na generosidade.",
+    "positiveAspects": "A generosidade, a hospitalidade e o compartilhamento de sucesso são aspectos positivos destacados por Gebo. Esta runa encoraja a abrir seu coração e sua mente para os outros, reforçando laços com a comunidade e seres queridos através do ato de compartilhar.",
+    "challenges": "O desafio de Gebo pode residir no encontro do equilíbrio entre dar e receber. Evite situações onde as trocas se tornam desiguais ou onde a generosidade é explorada.",
+    "career": {
+      "normal": "No contexto profissional, Gebo sugere que a colaboração e as parcerias serão benéficas. Pode indicar um momento propício para formar alianças, com ênfase na igualdade e no respeito mútuo."
+    },
+    "love": {
+      "normal": "Em questões de amor, Gebo simboliza uma relação equilibrada e harmoniosa, onde ambos os parceiros se beneficiam igualmente. Encoraja a expressão de afeto e a apreciação do seu parceiro."
+    },
+    "advice": "Seja generoso, mas também esteja aberto para receber. O equilíbrio nas trocas fortalece os relacionamentos e promove uma sensação de bem-estar e gratidão compartilhada.",
+    "positionInverted": false
+  },
+  
+  "Wunjo": {
+    "imageSrc": "runes/wunjo.png",
+    "keywords": {
+      "normal": "Alegria, Sucesso, Realização"
+    },
+    "generalMeaning": {
+      "normal": "Wunjo simboliza o culminar de esforços e o advento da alegria e satisfação que vem com a realização de metas. Esta runa é um lembrete dos momentos de felicidade que a vida oferece, especialmente após períodos de luta e desafio. Indica que um período de harmonia e bem-estar está se aproximando, sugerindo que as recompensas pelo trabalho duro estão ao alcance."
+    },
+    "symbols": "Wunjo é representada visualmente por uma figura que lembra uma bandeira ou estandarte, simbolizando a celebração e a vitória. Esta imagem evoca a sensação de orgulho e contentamento por conquistas alcançadas, e a unidade que vem com a partilha de sucessos com outros.",
+    "positiveAspects": "Os aspectos positivos de Wunjo incluem a alegria pura, a sensação de realização e o contentamento com a vida. Encoraja a celebração de conquistas e a partilha dessa felicidade com aqueles ao seu redor, reforçando laços sociais e familiares.",
+    "challenges": "Enquanto Wunjo é predominantemente positiva, o desafio pode residir na manutenção do equilíbrio e não se deixar levar exclusivamente pela busca do prazer, negligenciando outras áreas da vida.",
+    "career": {
+      "normal": "No ambiente profissional, Wunjo sinaliza um período de reconhecimento e recompensas. Pode indicar a conclusão bem-sucedida de um projeto ou o alcance de um objetivo há muito perseguido, trazendo uma sensação de satisfação e orgulho."
+    },
+    "love": {
+      "normal": "Em termos de relacionamentos, Wunjo fala de harmonia e felicidade compartilhada. Reflete um período de contentamento e prazer mútuos, onde as relações são fortalecidas pela alegria e pelo apoio mútuo."
+    },
+    "advice": "Celebre as suas conquistas e compartilhe sua alegria com aqueles ao seu redor. Use este momento de felicidade como uma base para construir e fortalecer relacionamentos e para inspirar futuras realizações.",
+    "positionInverted": false
+  },
+
+  "Hagalaz": {
+    "imageSrc": "runes/hagalaz.png",
+    "keywords": {
+      "normal": "Transformação, Interrupção, Desafio"
+    },
+    "generalMeaning": {
+      "normal": "Hagalaz simboliza a ocorrência de eventos inesperados e potencialmente desafiadores, agindo como um lembrete da natureza imprevisível da vida. Representa a tempestade que chega sem aviso, trazendo mudanças necessárias, ainda que difíceis. É a runa da transformação profunda, sugerindo que, através dos desafios, há oportunidades para o crescimento e o fortalecimento do caráter."
+    },
+    "symbols": "Visualmente, Hagalaz é representada por uma figura que lembra granizo, simbolizando a abrupta interrupção e a limpeza que a natureza pode impor. Como o granizo, os eventos que Hagalaz anuncia podem ser duros e frios, mas também servem para purificar e renovar.",
+    "positiveAspects": "Apesar de sua natureza aparentemente negativa, os aspectos positivos de Hagalaz incluem a capacidade de sobreviver a tempestades, a aprendizagem obtida através de experiências difíceis e a purificação que segue a destruição. Encoraja a resiliência e a preparação para tempos incertos.",
+    "challenges": "Os desafios representados por Hagalaz giram em torno de enfrentar e superar adversidades inesperadas. A runa adverte sobre a possibilidade de interrupções que podem vir na forma de perdas ou mudanças drásticas.",
+    "career": {
+      "normal": "No contexto profissional, Hagalaz pode indicar uma fase de turbulência ou grandes mudanças. Pode ser um momento para repensar estratégias, adaptar-se a novas circunstâncias e aprender com os desafios."
+    },
+    "love": {
+      "normal": "Em questões amorosas, esta runa sugere a necessidade de fortalecer relações diante das dificuldades. Pode indicar um período de conflito ou uma prova que, se superada, fortalecerá o vínculo."
+    },
+    "advice": "Encare os desafios como oportunidades para crescimento e renovação. Embora possa ser difícil, a resiliência e a adaptação são chave para superar as tempestades que Hagalaz representa.",
+    "positionInverted": false
+  },
+
+  
+  "Naudiz": {
+    "imageSrc": "runes/naudiz.png",
+    "keywords": {
+      "normal": "Necessidade, Desafio, Auto-superação"
+    },
+    "generalMeaning": {
+      "normal": "Naudiz representa os momentos de vida que nos colocam à prova, enfatizando a necessidade de enfrentar e superar limitações. A presença desta runa em uma leitura aponta para uma fase de restrição, onde as necessidades se tornam o foco principal. Ela lembra que, embora as dificuldades possam parecer opressoras, elas oferecem oportunidades valiosas para o crescimento pessoal, desenvolvimento da força interior e descoberta de novas soluções."
+    },
+    "symbols": "Naudiz é simbolizada por uma figura que pode ser interpretada como a necessidade de acender uma faísca no escuro, representando a luz da esperança e a inovação que surge em tempos de escuridão. O simbolismo gira em torno da ideia de que a pressão e as necessidades podem ser catalisadores para a criatividade e o avanço.",
+    "positiveAspects": "Os aspectos positivos de Naudiz incluem a resiliência, a capacidade de adaptação e a determinação em face dos obstáculos. Esta runa encoraja a encontrar força na adversidade e a transformar desafios em caminhos para o sucesso.",
+    "challenges": "Os desafios trazidos por Naudiz são principalmente aqueles que testam nossa paciência, determinação e capacidade de pensar de forma inovadora. Ela nos desafia a não desistir frente às adversidades e a buscar soluções criativas para nossos problemas.",
+    "career": {
+      "normal": "No contexto profissional, Naudiz pode indicar um período de dificuldades financeiras ou desafios na carreira que exigem uma abordagem cuidadosa e pensativa. É um lembrete de que, através do esforço e da perseverança, é possível superar os obstáculos e emergir mais forte."
+    },
+    "love": {
+      "normal": "Em relacionamentos, esta runa sugere a importância de trabalhar juntos para superar tempos difíceis. Pode indicar uma fase onde a comunicação e o apoio mútuo são fundamentais para fortalecer o vínculo e superar os desafios juntos."
+    },
+    "advice": "Aceite as limitações atuais como uma oportunidade para crescimento e aprendizado. Utilize sua criatividade e força interior para encontrar novos caminhos e soluções. Lembre-se de que a necessidade é a mãe da invenção.",
+    "positionInverted": false
+  },
+
+  "Isaz": {
+    "imageSrc": "runes/isaz.png",
+    "keywords": {
+      "normal": "Gelo, Estagnação, Clareza",
+      "inverted": "Esta runa não possui posição invertida, refletindo sua natureza imutável."
+    },
+    "generalMeaning": {
+      "normal": "Isaz representa o gelo — sólido, frio e imóvel. Simboliza um momento de pausa, estagnação ou espera. Essa runa fala sobre a necessidade de parar e refletir, indicando que pode não ser o momento de agir, mas de planejar e de ganhar clareza. O gelo também simboliza a clareza que vem com o frio e a quietude: as coisas são vistas como realmente são, sem ilusões. Isaz aconselha paciência e sugere que a reflexão profunda pode revelar verdades importantes. Enquanto representa desafios como frieza ou bloqueio, Isaz também oferece a promessa de transformação, pois todo gelo eventualmente derrete, indicando mudança e a liberação de energia represada.",
+      "inverted": "Devido à natureza estática do gelo que Isaz representa, esta runa não é interpretada de maneira invertida. Sua mensagem permanece constante, enfatizando a introspecção, a pausa necessária para o crescimento, e a iminência de transformação que vem após um período de calma."
+    },
+    "symbols": "O gelo é o principal símbolo de Isaz, refletindo transparência, perigo latente e beleza. Representa a beleza da clareza e da verdade, assim como os riscos associados à rigidez e ao isolamento. O gelo encarna a dualidade entre a estagnação e a promessa de renovação que segue o descongelamento.",
+    "positiveAspects": "Apesar de seu aspecto frio, Isaz oferece a oportunidade para uma introspecção profunda e para a obtenção de clareza mental. Este é um tempo para meditação, para o entendimento claro de suas metas e desejos, e para a preparação cuidadosa antes de agir.",
+    "challenges": "Os desafios apresentados por Isaz envolvem lidar com a sensação de isolamento, a dificuldade de avançar e a necessidade de esperar o momento certo para ação. A runa aconselha a não ser dominado pela frieza emocional ou pela impaciência.",
+    "career": {
+      "normal": "No ambiente de trabalho, Isaz pode indicar um período de pouco progresso visível, sugerindo que é um tempo para consolidar conhecimentos e planejar estrategicamente em vez de buscar avanços rápidos.",
+      "inverted": "Não aplicável."
+    },
+    "love": {
+      "normal": "Em termos de relacionamentos, Isaz pode sugerir um momento para refletir sobre o relacionamento atual, para entender melhor os sentimentos e as necessidades de ambos os parceiros antes de tomar decisões importantes.",
+      "inverted": "Não aplicável."
+    },
+    "advice": "Use este período de calma para ganhar clareza e perspectiva. A paciência é fundamental; reconheça que esta fase de aparente inatividade é, na verdade, uma preparação para o que está por vir.",
+    "positionInverted": false
+  },
+
+  
+  "Jera": {
+    "imageSrc": "runes/jera.png",
+    "keywords": {
+      "normal": "Ciclo, Colheita, Recompensa"
+    },
+    "generalMeaning": {
+      "normal": "Jera evoca o ciclo natural de sementeira e colheita, lembrando-nos que a paciência e o esforço contínuo são recompensados. Esta runa simboliza o sucesso e a prosperidade que seguem um período de trabalho duro e dedicação. A presença de Jera numa leitura indica que é um momento de colher os benefícios de seus esforços passados, reconhecendo que tudo tem sua estação e que o tempo de espera é tão crucial quanto a ação."
+    },
+    "symbols": "Jera é associada ao ciclo anual, marcando a passagem das estações e a lei natural de causa e efeito. O símbolo representa a perfeita harmonia e equilíbrio que mantêm o ciclo da vida, incentivando uma compreensão profunda do tempo como um recurso essencial para o crescimento e realização.",
+    "positiveAspects": "Os aspectos positivos de Jera incluem prosperidade, realização e a satisfação de ver os planos frutificarem. Esta runa encoraja a fé no processo e a crença de que o tempo trará as recompensas merecidas para os esforços empregados.",
+    "challenges": "Um desafio associado a Jera pode ser a impaciência ou a expectativa de resultados imediatos. A runa adverte contra a pressa e lembra que o crescimento e a realização requerem tempo e não podem ser apressados.",
+    "career": {
+      "normal": "No âmbito profissional, Jera sugere um período de prosperidade que vem como resultado de projetos de longo prazo ou esforços contínuos. É um bom sinal para negócios e investimentos feitos com planejamento e visão de futuro."
+    },
+    "love": {
+      "normal": "Em relação ao amor, Jera fala de um relacionamento que amadurece positivamente com o tempo. Indica um período de harmonia e felicidade que é alcançado através do comprometimento e do trabalho conjunto."
+    },
+    "advice": "Mantenha a fé e a paciência, reconhecendo que cada ação tem seu tempo para gerar resultados. Trabalhe diligentemente e permita que o ciclo natural da vida traga as recompensas que você merece.",
+    "positionInverted": false
+  },
+
+
+"Eihwaz": {
+    "imageSrc": "runes/eihwaz.png",
+    "keywords": {
+      "normal": "Resistência, Proteção, Transformação"
+    },
+    "generalMeaning": {
+      "normal": "Eihwaz simboliza a capacidade de resistir e superar adversidades, indicando um período de prova que, embora desafiador, traz a oportunidade de crescimento e fortalecimento do caráter. Esta runa lembra que a verdadeira proteção vem do interior, através do desenvolvimento da força de vontade, da perseverança e da sabedoria. Ela aponta para a necessidade de enfrentar os medos e as incertezas com coragem, preparando o indivíduo para transformações significativas."
+    },
+    "symbols": "Eihwaz é associada ao teixo, uma árvore conhecida por sua longevidade e força. O teixo é capaz de crescer em circunstâncias adversas e é venenoso, o que lhe confere uma associação com proteção e a habilidade de sobreviver. Esta runa também representa o eixo do mundo, sugerindo um caminho de conexão entre os mundos e a jornada espiritual do indivíduo.",
+    "positiveAspects": "Os aspectos positivos de Eihwaz incluem desenvolvimento da intuição, resistência a influências negativas e a habilidade de transformar situações desfavoráveis em oportunidades de aprendizado e crescimento.",
+    "challenges": "Os desafios representados por Eihwaz podem envolver a superação de medos profundos e a resistência a mudanças necessárias. A runa adverte contra a estagnação e encoraja a evolução através da aceitação e da adaptação.",
+    "career": {
+      "normal": "No contexto profissional, Eihwaz sugere um momento para ser resiliente e estratégico. Pode indicar obstáculos que exigem paciência e determinação para serem superados, promovendo o crescimento profissional como resultado desses desafios."
+    },
+    "love": {
+      "normal": "Em questões de amor, esta runa fala da importância de fortalecer os laços emocionais através dos desafios, usando as dificuldades como uma chance para aprofundar a compreensão e a conexão com o parceiro."
+    },
+    "advice": "Use a adversidade como uma oportunidade para fortalecimento. Mantenha a calma e a determinação, sabendo que você tem a força interior necessária para superar os desafios e emergir mais forte.",
+    "positionInverted": false
+  },
+
+
+  
+  "Pertho": {
+    "imageSrc": "runes/pertho.png",
+    "keywords": {
+      "normal": "Mistério, Sorte, Iniciação"
+    },
+    "generalMeaning": {
+      "normal": "Pertho é a runa dos mistérios e do destino, simbolizando os aspectos imprevisíveis da vida e o potencial para o desenvolvimento espiritual. Ela representa jogos de sorte e a natureza incerta do destino, sugerindo que há forças atuando além do nosso controle imediato. Esta runa encoraja a aceitação dos mistérios da vida e a busca por compreensão através da exploração do desconhecido."
+    },
+    "symbols": "Associada a jogos de sorte e a práticas oraculares, Pertho evoca a ideia de que a vida é um jogo cujo resultado não é completamente conhecido. Os símbolos associados a esta runa podem incluir copos de dados ou peças de jogos, representando a sorte, o risco e a revelação de segredos ocultos através da intuição e da exploração espiritual.",
+    "positiveAspects": "Os aspectos positivos de Pertho incluem a aventura, a descoberta e a transformação pessoal que vem com o enfrentamento do desconhecido. Esta runa sugere que novos começos e insights espirituais estão próximos, trazidos pela coragem de se aventurar além do familiar.",
+    "challenges": "Os desafios representados por Pertho podem envolver a dificuldade em enfrentar o desconhecido e a necessidade de se abrir para experiências que estão fora da nossa zona de conforto. Ela adverte contra o medo do incerto e a resistência à mudança.",
+    "career": {
+      "normal": "No ambiente de trabalho, Pertho pode indicar uma fase de incertezas, mas também de oportunidades ocultas. É um momento para confiar na intuição e estar aberto a novos caminhos que podem levar a resultados inesperados e benéficos."
+    },
+    "love": {
+      "normal": "Em relações amorosas, esta runa sugere a importância da comunicação aberta e da disposição para explorar as profundezas emocionais e espirituais do relacionamento. Pode indicar um período de descobertas e crescimento mútuo."
+    },
+    "advice": "Abra-se aos mistérios da vida e confie no processo de descoberta. Permita que sua intuição o guie através das incertezas e esteja preparado para abraçar as revelações e oportunidades que surgem ao longo do caminho.",
+    "positionInverted": false
+  },
+
+  "Algiz": {
+    "imageSrc": "runes/algiz.png",
+    "keywords": {
+      "normal": "Proteção, Guardião, Conexão Espiritual"
+    },
+    "generalMeaning": {
+      "normal": "Algiz simboliza a necessidade de proteção e a presença de um guardião espiritual. Esta runa aconselha a manutenção da vigilância e a busca por refúgio seguro, tanto no plano físico quanto espiritual. Representa a capacidade de se conectar com o divino e de invocar essa conexão como uma fonte de proteção e orientação. Sugerindo que, ao nos abrirmos para o apoio espiritual, podemos encontrar força e segurança para enfrentar desafios."
+    },
+    "symbols": "A forma de Algiz é frequentemente associada à imagem de um cervo com chifres erguidos ou a mãos levantadas em sinal de oração, ambos simbolizando a defesa, o refúgio e a elevação espiritual. Os chifres do cervo servem como uma proteção contra predadores, assim como Algiz oferece guarda contra energias negativas e perigos.",
+    "positiveAspects": "Os aspectos positivos de Algiz incluem a sensação de segurança, a capacidade de evitar perigos e a força que vem da fé e da conexão espiritual. Esta runa encoraja o desenvolvimento da intuição e a confiança nas próprias habilidades defensivas.",
+    "challenges": "Os desafios de Algiz podem envolver enfrentar o medo e aprender a distinguir entre ser cauteloso e viver em um estado de ansiedade constante. A runa adverte contra a paralisia pelo medo e incentiva a encontrar um equilíbrio entre proteção e abertura ao mundo.",
+    "career": {
+      "normal": "No contexto profissional, Algiz sugere que a vigilância e a cautela são necessárias para navegar com sucesso em ambientes competitivos ou em situações que exigem decisões estratégicas. Pode também indicar a necessidade de proteger suas ideias e projetos."
+    },
+    "love": {
+      "normal": "Em assuntos do coração, Algiz fala da importância de proteger os relacionamentos das influências externas negativas, cultivando uma conexão espiritual compartilhada que fortalece o vínculo entre os parceiros."
+    },
+    "advice": "Fortaleça suas defesas espirituais e mantenha-se vigilante às energias ao seu redor. Use sua intuição para guiar suas ações e confie na proteção que a sua conexão espiritual proporciona.",
+    "positionInverted": false
+},
+
+
+
+  "Sowilo": {
+    "imageSrc": "runes/sowilo.png",
+    "keywords": {
+      "normal": "Sucesso, Energia, Iluminação",
+      "inverted": "Esta runa não possui posição invertida, refletindo sua natureza sempre positiva."
+    },
+    "generalMeaning": {
+      "normal": "Sowilo simboliza o sol, a fonte de vida e energia. Representa sucesso, vitória e a realização de objetivos. Esta runa é um poderoso símbolo de iluminação espiritual e de clareza, sugerindo que a verdade e a orientação estão ao seu alcance. É um lembrete de que, apesar dos obstáculos, a luz sempre prevalece sobre a escuridão, trazendo esperança e renovação.",
+      "inverted": "Devido à sua associação intrínseca com o sol, Sowilo é considerada uma runa que não possui uma posição invertida, pois seu poder e energia são vistos como inabaláveis e constantemente positivos."
+    },
+    "symbols": "A imagem do sol é central para o simbolismo de Sowilo, representando a vida, a energia e a purificação. O sol é uma fonte universal de calor e luz, capaz de dispersar as sombras e revelar a verdade oculta. Sowilo encoraja a busca pela própria 'luz interior', a essência espiritual que guia e ilumina o caminho.",
+    "positiveAspects": "Sowilo traz consigo promessas de sucesso, otimismo e progresso. Esta runa incentiva a autoconfiança, a motivação e a perseverança necessárias para seguir em direção aos seus objetivos. Ela também simboliza a proteção contra o mal e a negatividade, assegurando que as forças positivas estão trabalhando a seu favor.",
+    "challenges": "Embora Sowilo seja predominantemente uma runa de aspectos positivos, ela pode também aconselhar contra o excesso de confiança ou arrogância. A verdadeira iluminação vem do equilíbrio entre o conhecimento interno e externo, e o desafio reside em manter a humildade enquanto se empunha a luz do sucesso.",
+    "career": {
+      "normal": "No contexto profissional, Sowilo anuncia um período de sucesso e realização. Indica que o caminho está aberto para o avanço e reconhecimento, graças ao seu esforço contínuo e à clareza de seus objetivos.",
+      "inverted": "Não aplicável."
+    },
+    "love": {
+      "normal": "Em assuntos do coração, Sowilo sugere uma fase de calor emocional e felicidade. Suas relações estão sob uma luz benéfica, promovendo a harmonia e o entendimento mútuo entre os parceiros.",
+      "inverted": "Não aplicável."
+    },
+    "advice": "Mantenha-se fiel ao seu caminho e confie na luz que guia seus passos. Sowilo encoraja a integridade e a verdade em todas as suas ações. Permita que sua luz interior brilhe e guie você e outros para um futuro brilhante e promissor.",
+    "positionInverted": false
+  },
+
+  "Tiwaz": {
+    "imageSrc": "runes/tiwaz.png",
+    "keywords": {
+      "normal": "Justiça, Honra, Liderança",
+      "inverted": "Desequilíbrio, Conflito, Falta de direção"
+    },
+    "generalMeaning": {
+      "normal": "Tiwaz é a runa da justiça, da coragem e do sacrifício. Nomeada em homenagem a Tyr, o deus nórdico da guerra e do céu, simboliza a honra, a justiça e a liderança através do exemplo. Esta runa sugere um caminho de integridade, encorajando o enfrentamento de desafios de maneira direta e com convicção moral. Indica que a vitória e o sucesso podem ser alcançados por meio da disciplina e da auto-sacrifício, enfatizando a importância da responsabilidade pessoal em busca do bem maior.",
+      "inverted": "Quando Tiwaz aparece invertida, sinaliza uma falha na justiça ou um período de desequilíbrio e conflito. Pode indicar a necessidade de reavaliar suas convicções e métodos, alertando para o risco de agir sem honra ou de se envolver em situações que desafiam sua integridade. Sugere um momento para refletir sobre suas motivações e o impacto de suas ações nos outros."
+    },
+    "symbols": "Tiwaz está associada à lança, uma arma que representa o foco e a determinação em alcançar um objetivo. A lança é também um símbolo de sacrifício, lembrando o mito em que Tyr sacrifica sua mão para garantir a segurança dos deuses e dos homens. Este ato de bravura e auto-sacrifício é central para o significado de Tiwaz, enfatizando a justiça e a liderança através do exemplo.",
+    "positiveAspects": "A presença de Tiwaz em uma leitura promove a coragem, a determinação e a justiça. Encoraja a busca pela verdade e pela retidão, mesmo que isso exija sacrifício pessoal. Tiwaz serve como um lembrete da importância da honra pessoal e da conduta ética.",
+    "challenges": "Os desafios apresentados por Tiwaz invertida incluem a superação de injustiças, a luta contra a desonestidade em si mesmo e nos outros, e o enfrentamento de desequilíbrios éticos. É um chamado para revisitar e fortalecer seus valores e princípios morais.",
+    "career": {
+      "normal": "No ambiente de trabalho, Tiwaz indica liderança justa e a habilidade de tomar decisões difíceis pelo bem comum. Sugere sucesso através da integridade e do comprometimento com princípios éticos.",
+      "inverted": "Invertida, pode refletir conflitos no ambiente de trabalho, desafios na tomada de decisão ou a necessidade de defender o que é certo em situações adversas."
+    },
+    "love": {
+      "normal": "Em questões de amor, Tiwaz fala de relacionamentos baseados em respeito mútuo, honestidade e lealdade. Encoraja o equilíbrio e a justiça nas relações pessoais.",
+      "inverted": "Quando invertida, sugere desequilíbrios ou injustiças na relação que precisam ser abordados para restaurar a harmonia."
+    },
+    "advice": "Viva de acordo com seus princípios mais elevados e esteja preparado para agir com justiça e coragem, mesmo que isso exija sacrifício. Lembre-se de que a verdadeira liderança é servir como exemplo para os outros.",
+    "positionInverted": true
+  },
+
+  "Berkana": {
+    "imageSrc": "runes/berkana.png",
+    "keywords": {
+      "normal": "Crescimento, Renovação, Cuidado",
+      "inverted": "Estagnação, Declínio, Necessidade de cuidado"
+    },
+    "generalMeaning": {
+      "normal": "Berkana é a runa do crescimento e da renovação. Associada à deusa-mãe, simboliza a fertilidade, o nascimento e a nutrição. Esta runa sugere um período de nova vida ou o início de um empreendimento frutífero, destacando a importância do cuidado e da paciência para que as novas iniciativas floresçam. Berkana incentiva a atenção aos detalhes e a nutrição dos projetos e relacionamentos, para que eles possam se desenvolver saudavelmente.",
+      "inverted": "Quando Berkana aparece invertida, indica que pode haver uma resistência ao crescimento ou uma dificuldade em adaptar-se às mudanças. Pode sugerir a necessidade de soltar velhos hábitos que não servem mais e de prestar mais atenção ao cuidado pessoal e ao bem-estar emocional. A runa invertida pede uma reflexão sobre como nutrir melhor a si mesmo e aos outros."
+    },
+    "symbols": "Berkana é frequentemente associada à imagem da bétula, uma árvore conhecida por sua capacidade de crescer rapidamente e de se renovar. A bétula representa o início de um novo ciclo de crescimento e a promessa de renovação. Este símbolo reforça a mensagem de Berkana sobre a importância da regeneração e do florescimento.",
+    "positiveAspects": "Esta runa traz a promessa de renovação e crescimento pessoal. Ela encoraja a expressão da criatividade e a exploração de novas ideias ou caminhos. Berkana é um lembrete da capacidade de superar obstáculos através do cuidado e da dedicação, promovendo um ambiente de apoio e nutrição.",
+    "challenges": "Os desafios indicados por Berkana podem incluir a superação do medo da mudança, a necessidade de liberar o passado e a importância de cuidar da saúde emocional e física. A runa convida a enfrentar esses desafios com gentileza e compreensão, lembrando que o crescimento muitas vezes vem com desconforto.",
+    "career": {
+      "normal": "No contexto profissional, Berkana sugere um período de desenvolvimento e aprendizado. Pode indicar oportunidades para novos projetos ou para aprimorar habilidades, enfatizando a importância do trabalho em equipe e do apoio mútuo.",
+      "inverted": "Invertida, alerta para possíveis dificuldades em adaptar-se a mudanças no ambiente de trabalho ou a necessidade de revisar abordagens que não estão mais trazendo os resultados desejados."
+    },
+    "love": {
+      "normal": "Em relacionamentos, Berkana fala de crescimento e fortalecimento dos laços afetivos. Encoraja a comunicação aberta e o cuidado mútuo, promovendo relações saudáveis e enriquecedoras.",
+      "inverted": "Quando invertida, pode indicar que é preciso mais atenção e cuidado dentro do relacionamento. Sugere uma avaliação das necessidades emocionais de ambos os parceiros e a busca por um equilíbrio mais harmonioso."
+    },
+    "advice": "Cultive paciência e dedique-se ao cuidado e nutrição dos seus projetos e relações. Lembre-se de que o crescimento verdadeiro e sustentável leva tempo e requer atenção constante.",
+    "positionInverted": true
+  },
+
+  
+  "Ehwaz": {
+    "imageSrc": "runes/ehwaz.png",
+    "keywords": {
+      "normal": "Movimento, Progresso, Mudança",
+      "inverted": "Estagnação, Falta de movimento, Resistência à mudança"
+    },
+    "generalMeaning": {
+      "normal": "Ehwaz representa a ideia de movimento e progresso. Essa runa simboliza as viagens, não apenas físicas, mas também as jornadas de crescimento pessoal e espiritual. Indica a necessidade de confiar no processo e de estar aberto às transformações que a vida oferece. Ehwaz sugere que a mudança está chegando e que essa mudança trará progresso e melhorias. A runa encoraja a adaptação e a flexibilidade para se mover com os ciclos da vida, assim como o cavalo que se ajusta ao terreno por onde passa.",
+      "inverted": "Quando Ehwaz aparece invertida, pode indicar resistência à mudança ou dificuldade em adaptar-se a novas circunstâncias. Alerta para a possibilidade de estagnação ou de se sentir preso em uma situação. A mensagem é revisitar suas resistências e abrir-se para o fluxo natural da vida, reconhecendo que a mudança é necessária para o crescimento."
+    },
+    "symbols": "O cavalo é o símbolo central de Ehwaz, representando lealdade, confiança e o forte vínculo entre o cavaleiro e seu monte. O cavalo simboliza a capacidade de avançar e de superar obstáculos com graça e força. A parceria entre o cavaleiro e o cavalo exemplifica a ideia de trabalhar em harmonia com as forças da vida para alcançar seus objetivos.",
+    "positiveAspects": "Ehwaz traz consigo a promessa de movimento, avanço e evolução. Essa runa encoraja a busca por crescimento, a vontade de embarcar em novas aventuras e a coragem de enfrentar o desconhecido. É um lembrete da importância da cooperação e da parceria na superação de desafios.",
+    "challenges": "Os desafios de Ehwaz estão relacionados ao medo do novo e à relutância em deixar para trás o que é familiar. A runa desafia você a confiar no processo de mudança e a liberar o passado para abraçar as possibilidades futuras.",
+    "career": {
+      "normal": "No ambiente profissional, Ehwaz indica progresso na carreira e possíveis oportunidades de avanço ou transição para novos papéis. Sinaliza um momento propício para explorar novas direções e expandir seus horizontes profissionais.",
+      "inverted": "Invertida, sugere a necessidade de avaliar se o medo ou a hesitação estão impedindo seu progresso profissional. Pode indicar que é hora de reconsiderar sua direção de carreira ou de se abrir para novas oportunidades."
+    },
+    "love": {
+      "normal": "Em relacionamentos, Ehwaz fala de desenvolvimento e crescimento conjunto. Encoraja a construir relações baseadas na confiança mútua e no apoio, apontando para um período de transições positivas no amor.",
+      "inverted": "Quando invertida, pode apontar para resistência a mudanças necessárias dentro da relação. Indica a importância de comunicação e flexibilidade para superar períodos de estagnação ou desafios no relacionamento."
+    },
+    "advice": "Abra-se para as mudanças, confie no processo e esteja disposto a se adaptar. As transições podem ser poderosas aliadas em seu caminho de crescimento e realização.",
+    "positionInverted": true
+  },
+
+  "Mannaz": {
+    "imageSrc": "runes/mannaz.png",
+    "keywords": {
+      "normal": "Humanidade, Autoconhecimento, Comunidade",
+      "inverted": "Isolamento, Perda de identidade, Falta de apoio"
+    },
+    "generalMeaning": {
+      "normal": "Mannaz simboliza a essência da humanidade, enfatizando a importância do autoconhecimento, da inteligência e do coletivo. Representa a nossa capacidade de pensar, planejar e compreender a nós mesmos e ao mundo ao nosso redor. Esta runa encoraja a conexão com os outros, reconhecendo que somos parte de uma comunidade maior e que o nosso crescimento pessoal está intrinsecamente ligado ao bem-estar do coletivo. Mannaz lembra que a verdadeira sabedoria vem do entendimento de nossa própria natureza humana e da capacidade de viver em harmonia com os outros.",
+      "inverted": "Quando Mannaz aparece invertida, pode indicar um período de isolamento, confusão sobre a própria identidade ou dificuldades nas relações interpessoais. Esta posição adverte contra o egoísmo e a alienação, sugerindo a necessidade de se reconectar com sua essência e com as pessoas ao seu redor. Pode também destacar a importância de buscar apoio na comunidade ou em relacionamentos próximos para superar desafios."
+    },
+    "symbols": "Mannaz é frequentemente associada com a imagem do ser humano, destacando as qualidades únicas que nos definem, como a inteligência, a consciência e a capacidade de comunicação e colaboração. Este símbolo reforça a mensagem de interconexão e a necessidade de entender nosso lugar dentro do tecido social e natural.",
+    "positiveAspects": "Esta runa traz consigo a promessa de autoentendimento, desenvolvimento intelectual e harmonia com os outros. Encoraja a reflexão, o aprendizado contínuo e a valorização das contribuições individuais para o bem maior. Mannaz celebra a diversidade humana e a força encontrada na unidade.",
+    "challenges": "Os desafios relacionados a Mannaz incluem o superar o isolamento, o orgulho excessivo ou a falta de empatia. A runa desafia a cultivar a humildade, a reconhecer a necessidade de outros e a trabalhar para o benefício comum.",
+    "career": {
+      "normal": "No ambiente de trabalho, Mannaz sugere colaboração e o uso da inteligência coletiva para alcançar objetivos comuns. Pode indicar um bom momento para networking, parcerias e projetos de equipe.",
+      "inverted": "Invertida, aponta para conflitos no local de trabalho, mal-entendidos ou a necessidade de melhorar a comunicação e as habilidades interpessoais."
+    },
+    "love": {
+      "normal": "Em termos de relacionamentos, Mannaz fala de conexão profunda, entendimento mútuo e o crescimento que vem da partilha e do apoio mútuo.",
+      "inverted": "Quando invertida, pode sugerir desafios na comunicação dentro de relacionamentos, sentimentos de solidão ou a necessidade de reavaliar as expectativas em relação ao parceiro ou à relação."
+    },
+    "advice": "Valorize as conexões humanas e busque entender-se melhor através do espelho oferecido pelos outros. Lembre-se de que a sua jornada é tanto interna quanto compartilhada, e que a sabedoria e o crescimento vêm através da colaboração e do compartilhamento de experiências.",
+    "positionInverted": true
+  },
+
+
+  "Laguz": {
+    "imageSrc": "runes/laguz.png",
+    "keywords": {
+      "normal": "Água, Intuição, Fluxo",
+      "inverted": "Medo do desconhecido, Emoções reprimidas, Estagnação"
+    },
+    "generalMeaning": {
+      "normal": "Laguz, associada ao elemento água, simboliza o fluxo, a intuição e a profundidade emocional. Esta runa lembra a importância de estar em harmonia com os ritmos naturais e de se conectar com o subconsciente e a intuição. Laguz sugere um período de limpeza e purificação, seja emocional, física ou espiritual, encorajando a aceitação das mudanças e a adaptação fluida às circunstâncias da vida. É um convite para mergulhar nas profundezas de si mesmo, explorar os mistérios internos e confiar na orientação da própria intuição.",
+      "inverted": "Quando Laguz aparece invertida, pode indicar um bloqueio emocional ou uma desconexão com a própria intuição. Alerta para o perigo de ignorar as emoções ou de ser arrastado por elas sem discernimento. Esta posição sugere a necessidade de enfrentar medos ou inseguranças, especialmente aqueles que impedem o fluxo natural do crescimento pessoal e da expressão autêntica."
+    },
+    "symbols": "A água é o símbolo central de Laguz, representando a capacidade de adaptação, a profundidade emocional e a purificação. A água flui, envolve obstáculos e se adapta ao meio, simbolizando a sabedoria de seguir o caminho de menor resistência e a capacidade de renovar e limpar.",
+    "positiveAspects": "Esta runa traz a promessa de intuição aprimorada, sensibilidade emocional e conexão profunda com o inconsciente. Laguz incentiva o crescimento espiritual através da introspecção e da compreensão emocional, oferecendo insights profundos sobre a vida e o self.",
+    "challenges": "Os desafios associados a Laguz incluem lidar com o medo do desconhecido, superar emoções reprimidas e aprender a fluir com as mudanças em vez de resistir a elas. A runa pede uma abordagem honesta e corajosa para explorar as profundezas de suas emoções e enfrentar o que é encontrado lá.",
+    "career": {
+      "normal": "No contexto profissional, Laguz pode indicar a necessidade de confiar mais na intuição e nas percepções emocionais para guiar decisões. Sugere um momento para ser receptivo a novas ideias e soluções criativas.",
+      "inverted": "Invertida, alerta para a possibilidade de sentir-se perdido ou desconectado de suas verdadeiras paixões e objetivos. Pode ser um sinal para reavaliar sua trajetória profissional e alinhar suas ações com seus valores internos."
+    },
+    "love": {
+      "normal": "Em termos de relacionamentos, Laguz fala de conexão emocional profunda, empatia e compreensão mútua. Encoraja a expressão aberta de sentimentos e o fortalecimento dos laços emocionais.",
+      "inverted": "Quando invertida, pode sugerir dificuldades em se comunicar efetivamente sobre emoções ou a necessidade de lidar com questões emocionais não resolvidas que estão afetando a relação."
+    },
+    "advice": "Permita-se fluir com os ciclos da vida, confie na sua intuição e esteja aberto às mensagens do seu subconsciente. Encare as emoções como guias que podem levar à verdadeira compreensão de si mesmo e ao crescimento espiritual.",
+    "positionInverted": true
+  },
+
+  "Ingwaz": {
+    "imageSrc": "runes/ingwaz.png",
+    "keywords": {
+      "normal": "Potencial, Fertilidade, Conclusão",
+      "inverted": "Esta runa não possui posição invertida, simbolizando um potencial sempre presente."
+    },
+    "generalMeaning": {
+      "normal": "Ingwaz, associada à divindade nórdica Ing (ou Freyr), simboliza o potencial pronto para ser liberado, a fertilidade, e o momento de espera antes da conclusão ou do nascimento de algo novo. Representa um período de gestação que antecede a realização e a manifestação de um objetivo ou projeto. Esta runa sugere que você está carregando algo valioso que logo se tornará tangível e real. Ingwaz é um lembrete da necessidade de paciência e preparação enquanto você se aproxima do final de um ciclo, preparando-se para o início de outro.",
+      "inverted": "Devido à sua associação com ciclos naturais e renovação, Ingwaz é considerada uma runa que não possui uma posição invertida. Seu significado é intrinsecamente positivo, enfatizando o crescimento, a conclusão e o novo início."
+    },
+    "symbols": "Ingwaz é muitas vezes representada pelo símbolo da semente ou do ovo, enfatizando os temas de potencial não realizado e gestação. Assim como uma semente contém tudo o que é necessário para o crescimento da nova vida, Ingwaz simboliza a promessa de renovação e o potencial para a nova criação.",
+    "positiveAspects": "Esta runa traz a promessa de realização e conclusão. Ela encoraja a concentração e o foco em objetivos de longo prazo, e sugere que o esforço e a dedicação atuais levarão a recompensas significativas. Ingwaz também fala de harmonia e paz interior, sugerindo um período de equilíbrio e bem-estar.",
+    "challenges": "Embora Ingwaz não tenha aspectos negativos tradicionais, pode desafiar você a manter a fé e a paciência durante períodos de transição, quando o resultado desejado ainda não é visível.",
+    "career": {
+      "normal": "No contexto profissional, Ingwaz indica que projetos em andamento estão próximos da conclusão, e que novas oportunidades surgirão a partir de seus resultados. Encoraja a finalizar tarefas pendentes e a preparar-se para a próxima etapa da sua carreira.",
+      "inverted": "Não aplicável."
+    },
+    "love": {
+      "normal": "Em termos de relacionamentos, Ingwaz sugere um período de crescimento e fortalecimento emocional. Para aqueles que estão em um relacionamento, indica um aprofundamento dos laços; para os solteiros, sugere que um novo amor pode estar se aproximando.",
+      "inverted": "Não aplicável."
+    },
+    "advice": "Nutrir paciência e manter o foco em seus objetivos. Agora é um momento para consolidação e preparação, permitindo que o ciclo natural das coisas traga à luz o fruto do seu trabalho.",
+    "positionInverted": false
+  },
+
+  
+  "Othila": {
+    "imageSrc": "runes/othila.png",
+    "keywords": {
+      "normal": "Herança, Legado, Pertencimento",
+      "inverted": "Perda, Separação, Necessidade de libertação"
+    },
+    "generalMeaning": {
+      "normal": "Othila representa herança, propriedade e aquilo que é passado de geração para geração. Simboliza a importância das raízes, da terra natal e do pertencimento a uma comunidade ou tradição. Esta runa sugere um momento de reflexão sobre o que é verdadeiramente valioso e o que deve ser preservado e protegido. Encoraja a valorização do legado ancestral e a compreensão de que a verdadeira riqueza inclui não apenas bens materiais, mas também valores, sabedoria e conexões culturais. Othila lembra que, em alguns casos, é necessário definir limites claros ou separar-se daquilo que não serve mais ao seu crescimento.",
+      "inverted": "Quando Othila aparece invertida, pode indicar uma fase de desapego ou a necessidade de se libertar de posses ou conexões que já não contribuem positivamente para sua vida. Pode também representar a sensação de perda de identidade ou pertencimento, desafiando-o a reconsiderar o que define como seu e a buscar uma nova base ou comunidade onde possa florescer."
+    },
+    "symbols": "Othila é frequentemente associada ao cercado ou à cerca, simbolizando limites e a definição clara do que é pessoal ou compartilhado. Este símbolo ressalta a ideia de proteção do lar e da família, assim como a importância da terra e do lar como fundamentos da identidade e da herança.",
+    "positiveAspects": "Esta runa traz consigo a promessa de estabilidade, segurança e a valorização das tradições. Othila encoraja a honrar o passado e a aprender com a história e as experiências de seus antepassados, usando esse conhecimento para fortalecer sua identidade e laços comunitários.",
+    "challenges": "Os desafios de Othila podem incluir a dificuldade de se libertar de velhas estruturas ou a luta para encontrar um verdadeiro senso de pertencimento. A runa pode sugerir a necessidade de reavaliar o que é essencial e o que precisa ser deixado para trás para permitir o crescimento pessoal.",
+    "career": {
+      "normal": "No contexto profissional, Othila pode indicar a valorização de carreiras ou projetos que tenham um significado mais profundo para você, sugerindo que o sucesso vem através da autenticidade e do alinhamento com seus valores fundamentais.",
+      "inverted": "Invertida, alerta para a possibilidade de sentir-se preso em situações profissionais que não refletem mais seus valores ou aspirações, incentivando a busca por novos caminhos que estejam mais alinhados com sua verdadeira identidade."
+    },
+    "love": {
+      "normal": "Em relacionamentos, Othila fala da importância dos laços familiares e da construção de um legado conjunto. Encoraja a criação de uma base sólida de confiança, respeito mútuo e valores compartilhados.",
+      "inverted": "Quando invertida, pode refletir desafios em manter a harmonia familiar ou em relacionamentos, indicando a necessidade de avaliar o que realmente importa e o que pode ser liberado para garantir a saúde da relação."
+    },
+    "advice": "Refletir sobre suas raízes e o que constitui seu verdadeiro lar. Valorize e proteja seu legado, mas esteja aberto para liberar o que já não contribui para seu crescimento. Encontre força na sua herança e na comunidade para moldar o futuro.",
+    "positionInverted": true
+  },
+
+
+  
+  "Dagaz": {
+    "imageSrc": "runes/dagaz.png",
+    "keywords": {
+      "normal": "Transformação, Clareza, Despertar",
+      "inverted": "Esta runa não possui posição invertida, enfatizando uma transformação sempre presente e positiva."
+    },
+    "generalMeaning": {
+      "normal": "Dagaz simboliza o amanhecer, o momento de transformação entre a noite e o dia, representando a iluminação súbita, a clareza e o despertar. Esta runa marca a conclusão de um ciclo e o início de um novo, sugerindo uma mudança profunda na percepção ou nas circunstâncias que traz luz à escuridão e renova a esperança. Dagaz encoraja a aceitação das transformações como parte do ciclo da vida e a reconhecer o potencial de renovação e crescimento em cada final. Indica um ponto de virada, onde a clareza substitui a confusão e a visão se amplia, permitindo uma nova compreensão da realidade.",
+      "inverted": "Dagaz não apresenta uma posição invertida devido ao seu significado intrinsecamente positivo e à sua associação com ciclos ininterruptos de início e fim. A natureza da transformação que ela simboliza é vista como uma constante, indicando sempre progresso e renovação."
+    },
+    "symbols": "O amanhecer é o principal símbolo associado a Dagaz, representando a transição e a revelação que vêm com a luz. Este momento de mudança simboliza a esperança, a renovação e o começo de uma nova fase. A runa também pode ser vista como uma representação da dualidade — luz e escuridão, fim e início — e da unidade que esses opostos criam juntos.",
+    "positiveAspects": "Dagaz traz a promessa de clareza, insight e compreensão renovada. Ela anuncia um período de despertar espiritual ou intelectual, onde antigos padrões são quebrados e novas possibilidades são vislumbradas. Este é um tempo para celebração da luz após a escuridão, simbolizando a vitória da consciência e do entendimento sobre a ignorância e o medo.",
+    "challenges": "Embora Dagaz seja predominantemente positiva, o desafio que ela apresenta é o de se abrir para a transformação e estar pronto para abraçar as mudanças, mesmo que isso signifique deixar para trás o que é familiar.",
+    "career": {
+      "normal": "No âmbito profissional, Dagaz indica um avanço significativo ou uma mudança de direção que leva a melhorias. Pode sugerir a conclusão de um projeto importante, abrindo caminho para novos empreendimentos.",
+      "inverted": "Não aplicável."
+    },
+    "love": {
+      "normal": "Em questões de amor, Dagaz sugere uma fase de renovação e entendimento profundo. Para relacionamentos existentes, pode indicar um rejuvenescimento da conexão. Para solteiros, sugere uma nova perspectiva ou um novo amor à vista.",
+      "inverted": "Não aplicável."
+    },
+    "advice": "Abra-se para a transformação e acolha a luz da clareza em sua vida. Esteja preparado para novos começos e para o despertar de novas ideias e possibilidades. A mudança é tanto um fim quanto um começo; abrace-a com esperança e otimismo.",
+    "positionInverted": false
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    };
+
+    function createRuneElements() {
+        const cardsContainer = document.getElementById('cards-container');
+
+        for (const runeName in runeDescriptions) {
+            const rune = runeDescriptions[runeName];
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('card');
+
+            cardElement.innerHTML = `
+                <h2>${runeName}</h2>
+                <img src="${rune.imageSrc}" alt="${runeName}">
+                <div class="card-description">
+                    <strong>Palavras-chave:</strong> Normal: ${rune.keywords.normal}, Invertida: ${rune.keywords.inverted}<br><br>
+                    <strong>Significado geral:</strong> Normal: ${rune.generalMeaning.normal}, Invertida: ${rune.generalMeaning.inverted}<br><br>
+                    <strong>Símbolos:</strong> ${rune.symbols}<br><br>
+                    <strong>Aspectos Positivos:</strong> ${rune.positiveAspects}<br><br>
+                    <strong>Desafios:</strong> ${rune.challenges}<br><br>
+                    <strong>Carreira:</strong> Normal: ${rune.career.normal}, Invertida: ${rune.career.inverted}<br><br>
+                    <strong>Amor:</strong> Normal: ${rune.love.normal}, Invertida: ${rune.love.inverted}<br><br>
+                    <strong>Conselhos:</strong> ${rune.advice}
+                </div>
+            `;
+
+            cardsContainer.appendChild(cardElement);
+        }
+    }
+
+    createRuneElements();
+</script>
+</body>
+</html>
